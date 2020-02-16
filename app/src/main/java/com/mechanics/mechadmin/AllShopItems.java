@@ -3,6 +3,7 @@ package com.mechanics.mechadmin;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +11,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,11 +36,12 @@ public class AllShopItems extends Fragment {
     private ShopAdapter adapter;
     private ProgressBar progressBar;
     View view;
+    private DatabaseReference databaseReference;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.allitem_products, container, false);
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Shop Collection");
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("Shop Collection");
         progressBar = view.findViewById(R.id.progress);
         progressBar.setVisibility(View.VISIBLE);
         final LinearLayout noItem = view.findViewById(R.id.no_item_layout);
@@ -66,7 +70,9 @@ public class AllShopItems extends Fragment {
                         String t6 = dataSnapshot1.child("shop_item_descrpt").getValue(String.class);
                         String t7 = dataSnapshot1.child("shop_item_image").getValue(String.class);
                         String t8 = dataSnapshot1.child("shop_item_ID").getValue(String.class);
-                        arr.add(new ShopItemModel(t1, t2, t3, t4, t5, t6, t7, t8));
+                        String t9 = dataSnapshot1.getKey();
+                        String t10 = keyArr.get(i);
+                        arr.add(new ShopItemModel(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10));
                     }
                 }
                 progressBar.setVisibility(View.GONE);
@@ -100,6 +106,7 @@ public class AllShopItems extends Fragment {
         private Context context;
         private final ArrayList<ShopItemModel> mData;
 
+
         ShopAdapter(Context context, ArrayList<ShopItemModel> mArrayL) {
             this.context = context;
             this.mData = mArrayL;
@@ -124,6 +131,23 @@ public class AllShopItems extends Fragment {
                 Picasso.get().load(mData.get(position).getShop_item_image())
                         .placeholder(R.drawable.placeholder).into(holder.shopItemImage);
             }
+
+            holder.shopItemDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ShopItemModel model = mData.get(position);
+                    Log.e(this.toString(), "Snapshot key: " + model.getShop_snapshot_key() + " Parent Key: " + model.getShop_parent_key());
+                    databaseReference.child(model.getShop_parent_key()).child(model.getShop_snapshot_key()).removeValue(new DatabaseReference.CompletionListener() {
+                        @Override
+                        public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
+                            if (databaseError != null) Toast.makeText(getContext(), "Error: "+ databaseError.getMessage(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(getContext(), "Shop Item Deleted", Toast.LENGTH_LONG).show();
+                            mData.remove(position);
+                            notifyItemRemoved(position);
+                        }
+                    });
+                }
+            });
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -153,7 +177,7 @@ public class AllShopItems extends Fragment {
         }
 
         class MyViewHolder extends RecyclerView.ViewHolder {
-            TextView shopItemName, shopItemSeller, shopItemPrice;
+            TextView shopItemName, shopItemSeller, shopItemPrice, shopItemDelete;
 
             ImageView shopItemImage;
 
@@ -164,7 +188,11 @@ public class AllShopItems extends Fragment {
                 shopItemPrice = itemView.findViewById(R.id.shop_item_price);
                 shopItemSeller = itemView.findViewById(R.id.shop_item_seller);
                 shopItemImage = itemView.findViewById(R.id.shop_item_image);
+                shopItemDelete = itemView.findViewById(R.id.shop_item_delete_item);
             }
         }
     }
+
 }
+
+

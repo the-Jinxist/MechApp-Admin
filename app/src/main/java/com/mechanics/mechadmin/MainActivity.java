@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.mechanics.mechadmin.models.LogsFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
     Fragment f2 = new ProductsContainer();
     Fragment f3 = new NotifiContainer();
     Fragment f4 = new HelpContainer();
-    Fragment f5 = new Others();
+    Fragment f6 = new LogsFragment();
     Fragment active = f1;
     FragmentManager fragmentManager = getSupportFragmentManager();
 
@@ -30,8 +31,8 @@ public class MainActivity extends AppCompatActivity {
         fragmentManager.beginTransaction().add(R.id.container, f1, "1").commit();
         fragmentManager.beginTransaction().add(R.id.container, f2, "1").hide(f2).commit();
         fragmentManager.beginTransaction().add(R.id.container, f3, "1").hide(f3).commit();
-        fragmentManager.beginTransaction().add(R.id.container, f4, "1").hide(f2).commit();
-        fragmentManager.beginTransaction().add(R.id.container, f5, "1").hide(f5).commit();
+        fragmentManager.beginTransaction().add(R.id.container, f4, "1").hide(f4).commit();
+        fragmentManager.beginTransaction().add(R.id.container, f6, "1").hide(f6).commit();
 
 //        fragmentManager.beginTransaction().add(R.id.container, f1, "1").commit();
 //        fragmentManager.beginTransaction().add(R.id.container, f2, "2").hide(f2).commit();
@@ -66,10 +67,11 @@ public class MainActivity extends AppCompatActivity {
                         active = f4;
                         getSupportActionBar().setTitle("Help Section");
                         return true;
-                    case R.id.navigation_others:
-                        fragmentManager.beginTransaction().hide(active).show(f5).commit();
-                        active = f5;
-                        getSupportActionBar().setTitle("Settings");
+
+                    case R.id.navigation_logs:
+                        fragmentManager.beginTransaction().hide(active).show(f6).commit();
+                        active = f6;
+                        getSupportActionBar().setTitle("Admin Logs");
                         return true;
                 }
                 return false;

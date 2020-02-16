@@ -12,24 +12,30 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-         <activity
-            android:name="com.mechanics.mechadmin.MainActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme">
+        <activity android:name=".AdminLoginActivity"
+            android:screenOrientation="portrait">
+
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
         <activity
-            android:name="com.mechanics.mechadmin.EachMechanic"
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
+
+        </activity>
+        <activity
+            android:name=".EachMechanic"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-        <activity android:name="com.mechanics.mechadmin.EachUser" />
-        <activity android:name="com.mechanics.mechadmin.AddProductActivity" />
-        <activity android:name="com.mechanics.mechadmin.ProductItemActivity" />
+        <activity android:name=".EachUser" />
+        <activity android:name=".AddProductActivity" />
+        <activity android:name=".ProductItemActivity" />
     </application>
 
 </manifest>
