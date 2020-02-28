@@ -25,7 +25,9 @@ import com.squareup.picasso.Picasso;
 public class EachMechanic extends AppCompatActivity {
 
     String title = "Mechanic";
+    final String specifationText = "";
     String[] k_val;
+    String[] specifications;
     static String mechUID;
 
     @Override
@@ -36,6 +38,7 @@ public class EachMechanic extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent.hasExtra("mechMap")) {
             k_val = intent.getStringArrayExtra("mechMap");
+            specifications = intent.getStringArrayExtra("mechSpecs");
         }
 
 //        {mData.get(position).getBankAccountName(),mData.get(position).getBankAccountNumber(),
@@ -73,6 +76,13 @@ public class EachMechanic extends AppCompatActivity {
         jobsDone.setText(k_val[9]);
         TextView ratings = findViewById(R.id.ar_mech_rating);
         ratings.setText(k_val[14]);
+
+        TextView mechSpecsText= findViewById(R.id.ar_mech_specifications);
+        for (String spec : specifications){
+            specifationText.concat(spec + ". ");
+        }
+        mechSpecsText.setText(specifationText);
+
 //        TextView email = findViewById(R.id.userEmail);
 //        email.setText(k_val[2]);
         ImageView image = findViewById(R.id.ar_mech_image);

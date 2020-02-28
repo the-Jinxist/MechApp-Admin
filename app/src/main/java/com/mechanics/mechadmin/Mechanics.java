@@ -27,6 +27,7 @@ import com.mechanics.mechadmin.models.MechModel;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Mechanics extends Fragment {
 
@@ -71,7 +72,7 @@ public class Mechanics extends Fragment {
                     String t2 = dataSnapshot1.child("Bank Account Number").getValue(String.class);
                     String t3 = dataSnapshot1.child("Bank Name").getValue(String.class);
                     String t4 = dataSnapshot1.child("CAC Image Url").getValue(String.class);
-                    //String t5 = dataSnapshot1.child("Categories").getValue(String.class);
+                    List<String> t5 = ((ArrayList<String>) dataSnapshot1.child("Specifications").getValue());
                     String t6 = dataSnapshot1.child("City").getValue(String.class);
                     String t7 = dataSnapshot1.child("Company Name").getValue(String.class);
                     String t8 = dataSnapshot1.child("Description").getValue(String.class);
@@ -88,7 +89,7 @@ public class Mechanics extends Fragment {
 
                     mechUIDArray.add(t13);
 
-                    arr.add(new MechModel(t7, t10, t11, t15, t14, t13, t9, t1, t2,
+                    arr.add(new MechModel(t5, t7, t10, t11, t15, t14, t13, t9, t1, t2,
                             t3, t4, t6, t8, t12, t16, t17, t18));
                 }
                 progressBar.setVisibility(View.GONE);
@@ -151,8 +152,10 @@ public class Mechanics extends Fragment {
                             mData.get(position).getLocality(),mData.get(position).getUid(),
                             mData.get(position).getNumber(),mData.get(position).getStreet_name(),
                             mData.get(position).getRating(),mData.get(position).getWebUrl()};
+                    String[] specificationList = mData.get(position).getSpecifications().toArray(new String[]{});
 
                     in.putExtra("mechMap", a);
+                    in.putExtra("mechSpecs", specificationList);
                     context.startActivity(in);
                 }
             });

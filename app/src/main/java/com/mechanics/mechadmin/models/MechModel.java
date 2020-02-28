@@ -1,5 +1,7 @@
 package com.mechanics.mechadmin.models;
 
+import java.util.List;
+
 public class MechModel {
 
     private String name;
@@ -92,6 +94,7 @@ public class MechModel {
 
     private String email, bankAccountName, bankAccountNumber, bankName,
             cacImageUrl, city, descript, locality, rating, reviews, webUrl;
+    private List<String> specifications;
 
     public String getEmail() {
         return email;
@@ -109,14 +112,22 @@ public class MechModel {
         this.uid = uid;
     }
 
+    public void setSpecifications(List<String> specifications) {
+        this.specifications = specifications;
+    }
+
+    public List<String> getSpecifications() {
+        return specifications;
+    }
 
     // Mech Constructor
 
-    public MechModel(String name, String image, String workDone,
+    public MechModel(List<String> specifications, String name, String image, String workDone,
                      String street_name, String number, String uid,
                      String email, String bankAccountName, String bankAccountNumber,
                      String bankName, String cacImageUrl, String city, String descript,
                      String locality, String rating, String reviews, String webUrl) {
+        this.specifications = specifications;
         this.name = name;
         this.image = image;
         this.workDone = workDone;
